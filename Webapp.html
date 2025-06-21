@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <title>Emoji Translator</title>
+ <style>
+   body {
+     margin: 0;
+     padding: 0;
+     background: linear-gradient(to right, #ffecd2, #fcb69f);
+     font-family: 'Comic Sans MS', cursive, sans-serif;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
+     overflow: hidden;
+   }
+
+
+   /* Animated emoji background */
+   .emoji-bg {
+     position: fixed;
+     width: 100%;
+     height: 100%;
+     z-index: -1;
+     overflow: hidden;
+   }
+
+
+   .emoji {
+     position: absolute;
+     font-size: 2rem;
+     animation: floatUp 10s infinite linear;
+     opacity: 0.6;
+   }
+
+
+   @keyframes floatUp {
+     0% {
+       transform: translateY(100vh) rotate(0deg);
+       opacity: 0;
+     }
+     50% {
+       opacity: 0.6;
+     }
+     100% {
+       transform: translateY(-10vh) rotate(360deg);
+       opacity: 0;
+     }
+   }
+
+
+   .container {
+     background: white;
+     padding: 30px;
+     border-radius: 20px;
+     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+     text-align: center;
+     width: 90%;
+     max-width: 500px;
+     z-index: 1;
+   }
+
+
+   h1 {
+     font-size: 2em;
+     color: #ff4e50;
+     margin-bottom: 5px;
+   }
+
+
+   .prompt {
+     font-size: 0.95em;
+     color: #555;
+     margin-bottom: 20px;
+   }
+
+
+   textarea {
+     width: 100%;
+     padding: 15px;
+     font-size: 1em;
+     border: 2px solid #ffa502;
+     border-radius: 10px;
+     resize: none;
+     margin-bottom: 15px;
+   }
+
+
+   button {
+     background-color: #ff6f61;
+     color: white;
+     border: none;
+     padding: 12px 25px;
+     font-size: 1em;
+     border-radius: 10px;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+   }
+
+
+   button:hover {
+     background-color: #e55b50;
+   }
+
+
+   .output {
+     margin-top: 20px;
+     font-size: 1.2em;
+     background: #fff3cd;
+     padding: 15px;
+     border-radius: 10px;
+     border: 2px dashed #ffa502;
+     min-height: 50px;
+   }
+ </style>
+</head>
+<body>
+
+
+ <!-- Floating emoji background -->
+ <div class="emoji-bg" id="emojiBg"></div>
+
+
+ <div class="container">
+   <h1>✨ Emoji Translator ✨</h1>
+   <div class="prompt">Try typing things like: <em>"I love pizza"</em>, <em>"I am happy"</em>, or <em>"Let's party with friends"</em> 🎉</div>
+   <textarea id="input" rows="4" placeholder="Type your sentence here..."></textarea>
+   <br />
+   <button id="translateBtn">Translate 🌈</button>
+   <div class="output" id="output"></div>
+ </div>
+
+
+ <script>
+   const emojiMap = {
+       love: "❤️", loves: "❤️", loved: "❤️", loving: "❤️",
+       happy: "😊", sad: "😢", angry: "😡", cry: "😭",
+       cat: "🐱", dog: "🐶", sun: "☀️", moon: "🌙", star: "⭐",
+       pizza: "🍕", burger: "🍔", cake: "🎂", icecream: "🍦", coffee: "☕",
+       rainbow: "🌈", fire: "🔥", water: "💧", tree: "🌳", flower: "🌸",
+       hello: "👋", bye: "👋", ok: "👌", cool: "😎", fun: "🎉",
+       party: "🥳", music: "🎵", sing: "🎤", dance: "💃", book: "📚",
+       phone: "📱", laptop: "💻", car: "🚗", airplane: "✈️", money: "💰",
+       win: "🏆", lose: "💔", food: "🍽️", sleep: "😴", work: "💼",
+       school: "🏫", friend: "👯", family: "👨‍👩‍👧", baby: "👶", tired: "🥱",
+       laugh: "😂", smile: "😁", run: "🏃", swim: "🏊", gym: "🏋️",
+       yes: "✅", no: "❌", heart: "💖", sky: "🌌", magic: "🪄",
+       bored: "🥱", excited: "🤩", scared: "😱", shocked: "😲", confused: "😕",
+       nerd: "🤓", glasses: "👓", game: "🎮", movie: "🎬", popcorn: "🍿",
+       rain: "🌧️", thunder: "⚡", snow: "❄️", beach: "🏖️", mountain: "⛰️",
+       travel: "🧳", home: "🏠", hug: "🤗", kiss: "💋"
+       };
+
+
+
+
+   document.getElementById("translateBtn").addEventListener("click", function () {
+     const inputText = document.getElementById("input").value.toLowerCase();
+     const words = inputText.split(/\s+/);
+     const translated = words.map(word => emojiMap[word] || word).join(" ");
+     document.getElementById("output").textContent = translated;
+   });
+
+
+   // Create floating emojis in the background
+   const emojiList = ["🌟", "🎉", "🎈", "🍕", "❤️", "😂", "😎", "☀️", "🎂", "💖", "☕", "🐱"];
+   const emojiBg = document.getElementById("emojiBg");
+
+
+   for (let i = 0; i < 30; i++) {
+     const emoji = document.createElement("div");
+     emoji.classList.add("emoji");
+     emoji.style.left = Math.random() * 100 + "vw";
+     emoji.style.top = Math.random() * 100 + "vh";
+     emoji.style.animationDuration = 6 + Math.random() * 10 + "s";
+     emoji.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
+     emojiBg.appendChild(emoji);
+   }
+ </script>
+</body>
+</html>
+
+
